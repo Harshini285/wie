@@ -1,0 +1,38 @@
+{
+  "customers": [
+    {
+      "id": "cust1",
+      "name": "Rahul Verma",
+      "email": "rahul@example.com",
+      "phone": "+91 99887 76655",
+      "city": "Bengaluru",
+      "savedLawyers": ["law1", "law3"],
+      "caseHistory": [
+        {
+          "id": "case1",
+          "title": "Property Dispute Resolution",
+          "status": "resolved",
+          "lawyerId": "law1",
+          "date": "2023-11-20"
+        }
+      ]
+    },
+    {
+      "id": "cust2",
+      "name": "Meera Krishnan",
+      "email": "meera@example.com",
+      "phone": "+91 88776 65544",
+      "city": "Chennai",
+      "savedLawyers": ["law4"],
+      "caseHistory": []
+    }
+  ],
+  "admins": [
+    {
+      "id": "admin1",
+      "name": "System Administrator",
+      "email": "admin@nyayai.com",
+      "role": "super_admin"
+    }
+  ]
+}

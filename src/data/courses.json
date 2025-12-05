@@ -1,0 +1,62 @@
+[
+  {
+    "id": "course1",
+    "title": "Introduction to Indian Constitution",
+    "description": "Learn the fundamentals of the Indian Constitution, including Fundamental Rights, Directive Principles, and the structure of governance.",
+    "difficulty": "Beginner",
+    "duration": "8 hours",
+    "lessons": 12,
+    "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=400&h=250&fit=crop",
+    "topics": ["Fundamental Rights", "DPSP", "Amendments", "Judiciary"]
+  },
+  {
+    "id": "course2",
+    "title": "Criminal Law & Procedure",
+    "description": "Comprehensive course covering IPC, CrPC, and Evidence Act with case studies and practical applications.",
+    "difficulty": "Intermediate",
+    "duration": "15 hours",
+    "lessons": 20,
+    "image": "https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=400&h=250&fit=crop",
+    "topics": ["IPC Sections", "CrPC", "Evidence Act", "Bail Procedures"]
+  },
+  {
+    "id": "course3",
+    "title": "Contract Law Essentials",
+    "description": "Master the Indian Contract Act 1872 with practical examples of contract formation, breach, and remedies.",
+    "difficulty": "Beginner",
+    "duration": "6 hours",
+    "lessons": 10,
+    "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&h=250&fit=crop",
+    "topics": ["Offer & Acceptance", "Consideration", "Breach", "Remedies"]
+  },
+  {
+    "id": "course4",
+    "title": "Corporate Law & Governance",
+    "description": "In-depth study of Companies Act 2013, corporate governance norms, and regulatory compliance.",
+    "difficulty": "Advanced",
+    "duration": "20 hours",
+    "lessons": 25,
+    "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=250&fit=crop",
+    "topics": ["Companies Act", "Board Governance", "Compliance", "SEBI Regulations"]
+  },
+  {
+    "id": "course5",
+    "title": "Family Law in India",
+    "description": "Understanding personal laws covering marriage, divorce, maintenance, custody, and succession across different religions.",
+    "difficulty": "Intermediate",
+    "duration": "12 hours",
+    "lessons": 16,
+    "image": "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=250&fit=crop",
+    "topics": ["Hindu Law", "Muslim Law", "Special Marriage Act", "Custody Laws"]
+  },
+  {
+    "id": "course6",
+    "title": "Intellectual Property Rights",
+    "description": "Comprehensive guide to patents, trademarks, copyrights, and trade secrets under Indian law.",
+    "difficulty": "Advanced",
+    "duration": "18 hours",
+    "lessons": 22,
+    "image": "https://images.unsplash.com/photo-1633265486064-086b219458ec?w=400&h=250&fit=crop",
+    "topics": ["Patents Act", "Trademarks", "Copyright Law", "Trade Secrets"]
+  }
+]
