@@ -3,16 +3,17 @@ import { Scale, Mail, Phone, MapPin, Twitter, Linkedin, Github } from 'lucide-re
 
 export function Footer() {
   return (
-    <footer className="bg-surface-elevated border-t border-border" role="contentinfo">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-surface-elevated border-t border-border relative overflow-hidden" role="contentinfo">
+      <div className="absolute inset-0 gradient-mesh opacity-20" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2" aria-label="NyayAI Home">
-              <div className="w-10 h-10 rounded-lg gradient-teal flex items-center justify-center">
-                <Scale className="w-5 h-5 text-primary-foreground" />
+            <Link to="/" className="flex items-center gap-3 group" aria-label="NyayAI Home">
+              <div className="w-12 h-12 rounded-xl gradient-teal flex items-center justify-center shadow-glow group-hover:shadow-glow-intense group-hover:scale-110 transition-all duration-500">
+                <Scale className="w-6 h-6 text-primary-foreground" />
               </div>
-              <span className="font-heading font-bold text-xl text-foreground">
+              <span className="font-heading font-extrabold text-2xl text-foreground">
                 Nyay<span className="text-gradient-teal">AI</span>
               </span>
             </Link>
@@ -20,14 +21,14 @@ export function Footer() {
               Unified Indian Legal Database with AI-powered legal assistance. Making justice accessible to everyone.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-teal transition-colors" aria-label="Twitter">
-                <Twitter className="w-5 h-5" />
+              <a href="#" className="text-muted-foreground hover:text-teal transition-all duration-300 hover:scale-125 hover:rotate-12" aria-label="Twitter">
+                <Twitter className="w-6 h-6" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-teal transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-5 h-5" />
+              <a href="#" className="text-muted-foreground hover:text-teal transition-all duration-300 hover:scale-125 hover:rotate-12" aria-label="LinkedIn">
+                <Linkedin className="w-6 h-6" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-teal transition-colors" aria-label="GitHub">
-                <Github className="w-5 h-5" />
+              <a href="#" className="text-muted-foreground hover:text-teal transition-all duration-300 hover:scale-125 hover:rotate-12" aria-label="GitHub">
+                <Github className="w-6 h-6" />
               </a>
             </div>
           </div>
@@ -37,22 +38,22 @@ export function Footer() {
             <h3 className="font-heading font-semibold text-foreground mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/#features" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                <Link to="/#features" className="text-muted-foreground hover:text-teal transition-all duration-300 text-sm font-medium hover:translate-x-1 inline-block">
                   Features
                 </Link>
               </li>
               <li>
-                <Link to="/study-portal" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                <Link to="/study-portal" className="text-muted-foreground hover:text-teal transition-all duration-300 text-sm font-medium hover:translate-x-1 inline-block">
                   Study Portal
                 </Link>
               </li>
               <li>
-                <Link to="/ai-assistant" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                <Link to="/ai-assistant" className="text-muted-foreground hover:text-teal transition-all duration-300 text-sm font-medium hover:translate-x-1 inline-block">
                   AI Lawyer
                 </Link>
               </li>
               <li>
-                <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                <Link to="/auth" className="text-muted-foreground hover:text-teal transition-all duration-300 text-sm font-medium hover:translate-x-1 inline-block">
                   Login / Sign Up
                 </Link>
               </li>
