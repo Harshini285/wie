@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Search, MapPin, Filter, Bot, ChevronDown, Star, X } from 'lucide-react';
+import { useState, useMemo, useRef } from 'react';
+import { Search, MapPin, Filter, Bot, ChevronDown, Star, X, Upload, FileText, Paperclip } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -34,10 +34,12 @@ export default function CustomerDashboard() {
   const [selectedSpec, setSelectedSpec] = useState('All');
   const [sortBy, setSortBy] = useState('distance');
   const [showChat, setShowChat] = useState(false);
-  const [chatMessages, setChatMessages] = useState<{role: string; content: string}[]>([
-    { role: 'assistant', content: 'Hello! I\'m your AI Legal Assistant. How can I help you today? You can ask me about legal matters, rights, or help finding the right lawyer.' }
+  const [chatMessages, setChatMessages] = useState<{role: string; content: string; files?: File[]}[]>([
+    { role: 'assistant', content: 'Hello! I\'m your AI Legal Assistant. How can I help you today? You can ask me about legal matters, rights, upload documents for analysis, or help finding the right lawyer.' }
   ]);
   const [chatInput, setChatInput] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const filteredLawyers = useMemo(() => {
     let lawyers = lawyersData.map(lawyer => ({
@@ -72,20 +74,71 @@ export default function CustomerDashboard() {
     return lawyers;
   }, [searchQuery, selectedCity, selectedSpec, sortBy]);
 
-  const handleSendMessage = () => {
-    if (!chatInput.trim()) return;
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const validFiles = files.filter(file => {
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      
+      if (file.size > maxSize) {
+        alert(`${file.name} is too large. Maximum file size is 10MB.`);
+        return false;
+      }
+      
+      if (!allowedTypes.includes(file.type)) {
+        alert(`${file.name} is not a supported file type. Please upload PDF, DOC, DOCX, or image files.`);
+        return false;
+      }
+      
+      return true;
+    });
     
-    setChatMessages(prev => [...prev, { role: 'user', content: chatInput }]);
+    setUploadedFiles(prev => [...prev, ...validFiles]);
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSendMessage = () => {
+    if (!chatInput.trim() && uploadedFiles.length === 0) return;
+    
+    const messageContent = chatInput.trim() || (uploadedFiles.length > 0 ? `Uploaded ${uploadedFiles.length} file(s) for analysis` : '');
+    const filesToSend = [...uploadedFiles];
+    
+    setChatMessages(prev => [...prev, { 
+      role: 'user', 
+      content: messageContent,
+      files: filesToSend.length > 0 ? filesToSend : undefined
+    }]);
     
     // Mock AI response
     setTimeout(() => {
+      let responseContent = 'Based on your query';
+      if (filesToSend.length > 0) {
+        responseContent += ` and the ${filesToSend.length} document(s) you uploaded`;
+      }
+      responseContent += ', I recommend consulting with a lawyer specializing in the relevant area. Under Indian law, you may have certain rights protected by the Constitution of India.';
+      
+      if (filesToSend.length > 0) {
+        responseContent += `\n\nI've reviewed your uploaded documents. The key points I've identified from the documents will help in understanding your case better. Would you like me to help you find a suitable lawyer nearby?`;
+      } else {
+        responseContent += ' Would you like me to help you find a suitable lawyer nearby?';
+      }
+      
       setChatMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: 'Based on your query, I recommend consulting with a lawyer specializing in the relevant area. Under Indian law, you may have certain rights protected by the Constitution of India. Would you like me to help you find a suitable lawyer nearby?' 
+        content: responseContent
       }]);
     }, 1000);
     
     setChatInput('');
+    setUploadedFiles([]);
   };
 
   return (
@@ -206,7 +259,7 @@ export default function CustomerDashboard() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Get instant answers to your legal questions from our AI assistant.
+                    Get instant answers to your legal questions or upload documents for analysis from our AI assistant.
                   </p>
                   <Dialog open={showChat} onOpenChange={setShowChat}>
                     <DialogTrigger asChild>
@@ -229,19 +282,73 @@ export default function CustomerDashboard() {
                                 ? 'bg-teal text-primary-foreground' 
                                 : 'bg-secondary text-secondary-foreground'
                             }`}>
-                              {msg.content}
+                              <p className="whitespace-pre-wrap">{msg.content}</p>
+                              {msg.files && msg.files.length > 0 && (
+                                <div className="mt-2 pt-2 border-t border-white/20">
+                                  {msg.files.map((file, fileIdx) => (
+                                    <div key={fileIdx} className="flex items-center gap-2 text-xs mt-1">
+                                      <FileText className="w-3 h-3" />
+                                      <span className="truncate">{file.name}</span>
+                                      <span className="text-white/70">({(file.size / 1024).toFixed(1)} KB)</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           </div>
                         ))}
                       </div>
+                      
+                      {/* Uploaded Files Preview */}
+                      {uploadedFiles.length > 0 && (
+                        <div className="flex flex-wrap gap-2 p-2 bg-secondary/50 rounded-lg border border-border mb-2">
+                          {uploadedFiles.map((file, idx) => (
+                            <div key={idx} className="flex items-center gap-2 px-2 py-1 bg-secondary rounded text-xs">
+                              <FileText className="w-3 h-3 text-teal" />
+                              <span className="max-w-[150px] truncate">{file.name}</span>
+                              <button
+                                onClick={() => handleRemoveFile(idx)}
+                                className="text-muted-foreground hover:text-foreground"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
                       <div className="flex gap-2 pt-4 border-t border-border">
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileSelect}
+                          multiple
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                          className="hidden"
+                        />
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="flex-shrink-0"
+                          title="Upload files"
+                        >
+                          <Paperclip className="w-4 h-4" />
+                        </Button>
                         <Input
-                          placeholder="Ask a legal question..."
+                          placeholder="Ask a legal question or upload documents..."
                           value={chatInput}
                           onChange={(e) => setChatInput(e.target.value)}
-                          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                          onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+                          className="flex-1"
                         />
-                        <Button variant="hero" onClick={handleSendMessage}>Send</Button>
+                        <Button 
+                          variant="hero" 
+                          onClick={handleSendMessage}
+                          disabled={!chatInput.trim() && uploadedFiles.length === 0}
+                        >
+                          Send
+                        </Button>
                       </div>
                     </DialogContent>
                   </Dialog>
